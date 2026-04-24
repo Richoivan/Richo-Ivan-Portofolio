@@ -368,7 +368,7 @@
   section {
     position: relative;
     z-index: 1;
-    padding: 80px clamp(1.5rem, 8vw, 6rem);
+    padding: 100px 8vw;
   }
 
   .section-label {
@@ -612,9 +612,10 @@
     border: 1px solid var(--border2);
     border-radius: 14px;
     padding: 1.75rem;
-    transition: all 0.3s;
+    transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
     position: relative;
     overflow: hidden;
+    cursor: pointer;
   }
 
   .project-card::before {
@@ -628,14 +629,15 @@
   }
 
   .project-card:hover {
-    border-color: var(--border);
-    transform: translateY(-3px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px var(--border);
+    border-color: var(--accent);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
   }
 
   .project-card:hover::before { opacity: 1; }
 
   .project-card.featured {
+    grid-column: span 2;
     border-color: rgba(99,179,237,0.2);
     background: linear-gradient(135deg, var(--surface) 0%, rgba(99,179,237,0.03) 100%);
   }
@@ -735,12 +737,13 @@
     padding: 6px 12px;
     border-radius: 6px;
     display: inline-block;
-    transition: 0.2s;
+    transition: all 0.25s ease;
   }
 
   .project-links a:hover {
     background: var(--accent);
-    color: var(--bg);
+    color: #000;
+    transform: translateY(-2px);
   }
 
   /* ── EXPERIENCE ── */
@@ -994,11 +997,11 @@
   /* ── ANIMATIONS ── */
   .fade-up {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
   }
 
-  .fade-up.visible {
+  .fade-up.active {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1029,6 +1032,7 @@
     .hamburger { display: flex; }
     .about-grid { grid-template-columns: 1fr; }
     .exp-card { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
     .exp-line { display: none; }
     .edu-card { padding-right: 1.5rem; }
     .edu-gpa { position: static; text-align: left; margin-bottom: 0.8rem; }
@@ -1087,25 +1091,25 @@
   <div class="hero-glow"></div>
   <div class="hero-glow2"></div>
   <div class="hero-inner">
-    <div class="hero-tag" data-en="Open to Opportunities — 2026" data-id="Terbuka untuk Kesempatan — 2026">
+    <div class="hero-tag fade-up stagger-1" data-en="Open to Opportunities — 2026" data-id="Terbuka untuk Kesempatan — 2026">
       Open to Opportunities — 2026
     </div>
-    <h1 class="hero-name">
+    <h1 class="hero-name fade-up stagger-1">
       <span>Richo Ivan<br>Ardiyanto</span>
     </h1>
-    <p class="hero-role">Backend Developer &nbsp;/&nbsp; System Builder</p>
-    <p class="hero-tagline">
+    <p class="hero-role fade-up stagger-2">Backend Developer &nbsp;/&nbsp; System Builder</p>
+    <p class="hero-tagline fade-up stagger-2">
       <span data-en="I design and build <strong>scalable backend systems</strong> that solve real-world problems — from architecture decisions to reliable data pipelines." data-id="Saya merancang dan membangun <strong>sistem backend yang skalabel</strong> untuk menyelesaikan masalah nyata — mulai dari keputusan arsitektur hingga pipeline data yang andal.">
         I design and build <strong>scalable backend systems</strong> that solve real-world problems — from architecture decisions to reliable data pipelines.
       </span>
     </p>
-    <div class="hero-values">
+    <div class="hero-values fade-up stagger-3">
       <span class="hero-value" data-en="Backend Architecture" data-id="Arsitektur Backend">Backend Architecture</span>
       <span class="hero-value" data-en="Data Processing" data-id="Pemrosesan Data">Data Processing</span>
       <span class="hero-value" data-en="System Reliability" data-id="Keandalan Sistem">System Reliability</span>
       <span class="hero-value" data-en="Full-Stack Thinking" data-id="Pemikiran Full-Stack">Full-Stack Thinking</span>
     </div>
-    <div class="hero-ctas">
+    <div class="hero-ctas fade-up stagger-3">
       <a href="#projects" class="btn-primary" data-en="View Projects" data-id="Lihat Proyek">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         View Projects
@@ -1115,7 +1119,7 @@
   ↓ Download CV
 </a>
     </div>
-    <p class="hero-avail" data-en="Available for Backend / Software Engineer Internship roles" data-id="Tersedia untuk peran magang Backend / Software Engineer">
+    <p class="hero-avail fade-up stagger-4" data-en="Available for Backend / Software Engineer Internship roles" data-id="Tersedia untuk peran magang Backend / Software Engineer">
       Available for Backend / Software Engineer Internship roles
     </p>
   </div>
@@ -1285,7 +1289,7 @@
 
     <!-- BI Dashboard -->
     <div class="project-card fade-up stagger-4">
-      <div class="project-badge badge-normal" data-en="Data & Analytics" data-id="Data & Analitik">Data & Analytics</div>
+      <div class="project-badge">DATA PROJECT</div>
       <h3 class="project-title" data-en="Unicorn BI Dashboard" data-id="Dashboard BI Unicorn">Unicorn BI Dashboard</h3>
       <p class="project-problem"><span data-en="Problem:" data-id="Masalah:">Problem:</span> <span data-en="Unicorn company data is scattered and hard to compare across regions and industries without structured tooling." data-id="Data perusahaan unicorn tersebar dan sulit dibandingkan antar wilayah dan industri tanpa alat yang terstruktur.">Unicorn company data is scattered and hard to compare across regions and industries without structured tooling.</span></p>
       <p class="project-desc" data-en="Built an interactive BI dashboard analyzing global unicorn companies. Used Python to process and clean large datasets — extracting insights on valuation, funding patterns, and market trends. Translated the processed data into interactive Tableau visualizations including geographic maps, valuation distributions, and industry market share breakdowns." data-id="Membangun dashboard BI interaktif yang menganalisis perusahaan unicorn global. Menggunakan Python untuk memproses dan membersihkan dataset besar — mengekstraksi wawasan tentang valuasi, pola pendanaan, dan tren pasar. Menerjemahkan data yang diproses ke dalam visualisasi Tableau interaktif termasuk peta geografis, distribusi valuasi, dan perincian pangsa pasar industri.">
@@ -1596,7 +1600,7 @@
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+        entry.target.classList.add('active');
       }
     });
   }, { threshold: 0.1 });
