@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Richo Ivan Ardiyanto — Backend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --surface: #111820;
+    --surface2: #16202b;
+    --border: rgba(99,179,237,0.12);
+    --border2: rgba(99,179,237,0.06);
+    --accent: #63b3ed;
+    --accent2: #4fd1c5;
+    --accent3: #f6e05e;
+    --text: #e8edf2;
+    --text2: #8fa3b4;
+    --text3: #5a7080;
+    --glow: rgba(99,179,237,0.15);
+    --glow2: rgba(79,209,197,0.10);
+    --mono: 'DM Mono', monospace;
+    --head: 'Syne', sans-serif;
+    --body: 'Instrument Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(99,179,237,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99,179,237,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    height: 64px;
+    background: rgba(8,12,16,0.80);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border2);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.82rem;
+    font-family: var(--mono);
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .nav-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .nav-icons a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(99,179,237,0.06);
+  }
+
+  .nav-icons svg { width: 16px; height: 16px; }
+
+  /* LANG TOGGLE */
+  .lang-toggle {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+  }
+
+  .lang-btn {
+    padding: 6px 14px;
+    cursor: pointer;
+    color: var(--text3);
+    border: none;
+    background: transparent;
+    transition: all 0.2s;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+
+  .lang-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 500;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 80px clamp(1.5rem, 8vw, 6rem) 60px;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99,179,237,0.07) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,209,197,0.05) 0%, transparent 70%);
+    bottom: 0; left: 20%;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(99,179,237,0.25);
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: rgba(99,179,237,0.05);
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-name {
+    font-family: var(--head);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .hero-name span {
+    background: linear-gradient(135deg, #e8edf2 0%, #63b3ed 50%, #4fd1c5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-role {
+    font-family: var(--mono);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  .hero-tagline {
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    color: var(--text2);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .hero-tagline strong { color: var(--text); }
+
+  .hero-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-value {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text2);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: var(--surface2);
+    letter-spacing: 0.05em;
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    font-family: var(--body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary:hover {
+    background: #90cdf4;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(99,179,237,0.25);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(99,179,237,0.05);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--surface);
+    color: var(--text2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost:hover {
+    color: var(--accent3);
+    border-color: rgba(246,224,94,0.3);
+    background: rgba(246,224,94,0.04);
+  }
+
+  .hero-avail {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent2);
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-avail::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent2);
+    box-shadow: 0 0 12px var(--accent2);
+    flex-shrink: 0;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 80px clamp(1.5rem, 8vw, 6rem);
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 60px;
+  }
+
+  .section-title {
+    font-family: var(--head);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    color: var(--text2);
+    font-size: 1rem;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 clamp(1.5rem, 8vw, 6rem);
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--bg2); }
+
+  about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 720px;
+  margin: 0; 
+  gap: 2rem;
+  align-items: start;
+}
+
+  .about-text p {
+    color: var(--text2);
+    line-height: 1.8;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .about-text p strong { color: var(--accent); }
+
+  .about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    transition: border-color 0.2s;
+  }
+
+  .stat-item:hover { border-color: var(--border); }
+
+  .stat-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(99,179,237,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    flex-shrink: 0;
+    font-size: 1rem;
+  }
+
+  .stat-content { flex: 1; }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .stat-val {
+    font-family: var(--head);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 1.75rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover {
+    border-color: var(--border);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px var(--border);
+  }
+
+  .project-card:hover::before { opacity: 1; }
+
+  .project-card.featured {
+    border-color: rgba(99,179,237,0.2);
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(99,179,237,0.03) 100%);
+  }
+
+  .project-card.featured::before { opacity: 0.5; }
+
+  .project-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .badge-featured {
+    background: rgba(99,179,237,0.1);
+    border: 1px solid rgba(99,179,237,0.25);
+    color: var(--accent);
+  }
+
+  .badge-normal {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text3);
+  }
+
+  .project-title {
+    font-family: var(--head);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .project-problem {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text3);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.03em;
+  }
+
+  .project-problem span { color: var(--accent2); }
+
+  .project-desc {
+    color: var(--text2);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-impact {
+    padding: 0.75rem;
+    background: rgba(79,209,197,0.04);
+    border: 1px solid rgba(79,209,197,0.12);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: var(--accent2);
+    font-family: var(--mono);
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.02em;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .stack-tag {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text3);
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--bg2); }
+
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .exp-card {
+    padding: 1.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .exp-card:hover { border-color: var(--border); }
+
+  .exp-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .exp-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg2);
+    box-shadow: 0 0 0 3px rgba(99,179,237,0.2);
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .exp-line-bar {
+    width: 1px;
+    flex: 1;
+    background: var(--border2);
+    margin-top: 8px;
+  }
+
+  .exp-header {
+    margin-bottom: 0.75rem;
+  }
+
+  .exp-role {
+    font-family: var(--head);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .exp-org {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .exp-period {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text3);
+    margin-top: 2px;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .exp-bullets li {
+    font-size: 0.88rem;
+    color: var(--text2);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.55;
+  }
+
+  .exp-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+    font-size: 0.75rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .skill-group:hover { border-color: var(--border); }
+
+  .skill-group-title {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border2);
+  }
+
+  .skill-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+
+  .skill-item:hover { background: var(--surface2); }
+
+  .skill-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    background: var(--bg);
+    border: 1px solid var(--border2);
+  }
+
+  .skill-icon img {
+    width: 18px; height: 18px;
+    object-fit: contain;
+  }
+
+  .skill-name {
+    font-size: 0.88rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .skill-sub {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text3);
+    margin-left: auto;
+  }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--bg2); }
+
+  .edu-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    max-width: 700px;
+  }
+
+  .edu-degree {
+    font-family: var(--head);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .edu-uni {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+
+  .edu-period {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text3);
+    margin-bottom: 1rem;
+  }
+
+  .edu-courses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .course-tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text2);
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    padding: 3px 9px;
+    border-radius: 4px;
+  }
+
+  .edu-gpa {
+    text-align: center;
+  }
+
+  .edu-gpa-num {
+    font-family: var(--head);
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .edu-gpa-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* CERTIFICATIONS */
+  .cert-list {
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .cert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: var(--text2);
+    line-height: 1.4;
+  }
+
+  .cert-icon {
+    color: var(--accent3);
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--bg);
+    text-align: center;
+  }
+
+  .contact-inner {
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .contact-title {
+    font-family: var(--head);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .contact-sub {
+    color: var(--text2);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-btns {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+    border: 1px solid var(--border2);
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+
+  .contact-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(99,179,237,0.04);
+  }
+
+  .contact-link svg { width: 15px; height: 15px; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 1.5rem clamp(1.5rem, 8vw, 6rem);
+    border-top: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stagger-1 { transition-delay: 0.1s; }
+  .stagger-2 { transition-delay: 0.2s; }
+  .stagger-3 { transition-delay: 0.3s; }
+  .stagger-4 { transition-delay: 0.4s; }
+
+  /* ── MOBILE ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    width: 22px; height: 2px;
+    background: var(--text2);
+    border-radius: 2px;
+    transition: all 0.2s;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .about-grid { grid-template-columns: 1fr; }
+    .exp-card { grid-template-columns: 1fr; }
+    .exp-line { display: none; }
+    .edu-card { grid-template-columns: 1fr; }
+    .edu-gpa { text-align: left; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border); }
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+    <a href="#hero" class="nav-logo">Richo Ivan Ardiyanto</a>
+  <ul class="nav-links">
+    <li><a href="#about" data-en="About" data-id="Tentang">About</a></li>
+    <li><a href="#projects" data-en="Projects" data-id="Proyek">Projects</a></li>
+    <li><a href="#experience" data-en="Experience" data-id="Pengalaman">Experience</a></li>
+    <li><a href="#skills" data-en="Skills" data-id="Keahlian">Skills</a></li>
+    <li><a href="#contact" data-en="Contact" data-id="Kontak">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-icons">
+      <a href="mailto:richoivan2005@gmail.com" title="Email" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+      </a>
+      <a href="https://linkedin.com/in/icho-ivan-ardiyanto" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
+      <a href="https://github.com/Richoivan" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('id')">ID</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag" data-en="Open to Opportunities — 2026" data-id="Terbuka untuk Kesempatan — 2026">
+      Open to Opportunities — 2026
+    </div>
+    <h1 class="hero-name">
+      <span>Richo Ivan<br>Ardiyanto</span>
+    </h1>
+    <p class="hero-role">Backend Developer &nbsp;/&nbsp; System Builder</p>
+    <p class="hero-tagline">
+      <span data-en="I design and build <strong>scalable backend systems</strong> that solve real-world problems — from architecture decisions to reliable data pipelines." data-id="Saya merancang dan membangun <strong>sistem backend yang skalabel</strong> untuk menyelesaikan masalah nyata — mulai dari keputusan arsitektur hingga pipeline data yang andal.">
+        I design and build <strong>scalable backend systems</strong> that solve real-world problems — from architecture decisions to reliable data pipelines.
+      </span>
+    </p>
+    <div class="hero-values">
+      <span class="hero-value" data-en="Backend Architecture" data-id="Arsitektur Backend">Backend Architecture</span>
+      <span class="hero-value" data-en="Data Processing" data-id="Pemrosesan Data">Data Processing</span>
+      <span class="hero-value" data-en="System Reliability" data-id="Keandalan Sistem">System Reliability</span>
+      <span class="hero-value" data-en="Full-Stack Thinking" data-id="Pemikiran Full-Stack">Full-Stack Thinking</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary" data-en="View Projects" data-id="Lihat Proyek">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        View Projects
+      </a>
+      <a href="#contact" class="btn-secondary" data-en="Contact Me" data-id="Hubungi Saya">Contact Me</a>
+      <a href="https://drive.google.com/file/d/1XR86sh1IKncJkyT6ehNYE73g3qMInD2h/view?usp=sharing" target="_blank" class="btn-ghost">
+  ↓ Download CV
+</a>
+    </div>
+    <p class="hero-avail" data-en="Available for Backend / Software Engineer Internship roles" data-id="Tersedia untuk peran magang Backend / Software Engineer">
+      Available for Backend / Software Engineer Internship roles
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-label" data-en="Who I Am" data-id="Tentang Saya">Who I Am</div>
+
+  <h2 class="section-title fade-up" 
+      data-en="Built to think in systems." 
+      data-id="Dibangun untuk berpikir dalam sistem.">
+    Built to think in systems.
+  </h2>
+
+  <div class="about-grid">
+
+    <div class="about-text fade-up stagger-1">
+
+      <p 
+        data-en="I'm an Information Systems student at Universitas Ciputra Surabaya who approaches every problem from a backend-first perspective — focusing on how data moves, how systems communicate, and how to keep both efficient under pressure."
+        data-id="Saya mahasiswa Sistem Informasi di Universitas Ciputra Surabaya yang mendekati setiap masalah dari sudut pandang backend — berfokus pada bagaimana data bergerak, bagaimana sistem berkomunikasi, dan bagaimana menjaga keduanya tetap efisien di bawah tekanan.">
+        
+        I'm an Information Systems student at Universitas Ciputra Surabaya who approaches every problem from a backend-first perspective — focusing on how data moves, how systems communicate, and how to keep both efficient under pressure.
+      
+      </p>
+
+      <p 
+        data-en="My edge is connecting backend logic with real operational context. From e-commerce platforms to real-time dashboards, I focus on clean data flows, maintainable logic, and solutions that hold up when complexity scales."
+        data-id="Keunggulan saya adalah menghubungkan logika backend dengan konteks operasional nyata. Dari platform e-commerce hingga dashboard real-time, saya fokus pada alur data yang bersih, logika yang mudah dirawat, dan solusi yang tetap andal saat kompleksitas meningkat.">
+        
+        My edge is connecting backend logic with real operational context. From e-commerce platforms to real-time dashboards, I focus on clean data flows, maintainable logic, and solutions that hold up when complexity scales.
+      
+      </p>
+
+      <p 
+        data-en="I'm looking for an environment where system design and backend engineering are taken seriously — as a Backend Developer or Software Engineer."
+        data-id="Saya mencari lingkungan di mana desain sistem dan rekayasa backend dianggap serius — sebagai Backend Developer atau Software Engineer.">
+        
+        I'm looking for an environment where system design and backend engineering are taken seriously — as a Backend Developer or Software Engineer.
+      
+      </p>
+
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="section-label" data-en="What I've Built" data-id="Apa yang Telah Saya Bangun">What I've Built</div>
+  <h2 class="section-title fade-up" data-en="Projects that solve real problems." data-id="Proyek yang menyelesaikan masalah nyata.">Projects that solve real problems.</h2>
+  <p class="section-sub fade-up stagger-1" data-en="Each project represents a deliberate engineering decision — choosing the right tools, designing for reliability, and delivering something that actually works." data-id="Setiap proyek mewakili keputusan rekayasa yang disengaja — memilih alat yang tepat, merancang untuk keandalan, dan menghasilkan sesuatu yang benar-benar bekerja.">
+    Each project represents a deliberate engineering decision — choosing the right tools, designing for reliability, and delivering something that actually works.
+  </p>
+  <div class="projects-grid">
+
+    <!-- FEATURED: Live Score -->
+    <div class="project-card featured fade-up stagger-1">
+      <div class="project-badge badge-featured">★ Featured Project</div>
+      <h3 class="project-title" data-en="Live Score Competition System" data-id="Sistem Live Score Kompetisi">Live Score Competition System</h3>
+      <p class="project-problem"><span data-en="Problem:" data-id="Masalah:">Problem:</span> <span data-en="Manual score tracking in competitions causes delays, errors, and a poor spectator experience." data-id="Pelacakan skor manual dalam kompetisi menyebabkan keterlambatan, kesalahan, dan pengalaman penonton yang buruk.">Manual score tracking in competitions causes delays, errors, and a poor spectator experience.</span></p>
+      <p class="project-desc" data-en="Engineered a dual-interface real-time scoring system — a secured admin control panel and a live participant display — with instant state synchronization across both views. Implemented dynamic ranking transitions, audio feedback on rank changes, and visual highlight effects to create a professional competition experience." data-id="Merancang sistem penilaian real-time dengan antarmuka ganda — panel kontrol admin yang aman dan layar tampilan peserta langsung — dengan sinkronisasi status instan di kedua tampilan. Menerapkan transisi peringkat dinamis, umpan balik audio pada perubahan peringkat, dan efek highlight visual untuk menciptakan pengalaman kompetisi profesional.">
+        Engineered a dual-interface real-time scoring system — a secured admin control panel and a live participant display — with instant state synchronization across both views. Implemented dynamic ranking transitions, audio feedback on rank changes, and visual highlight effects to create a professional competition experience.
+      </p>
+      <div class="project-impact" data-en="→ Zero-latency sync between admin and display. Eliminated manual errors during live events." data-id="→ Sinkronisasi zero-latency antara admin dan tampilan. Menghilangkan kesalahan manual selama acara langsung.">
+        → Zero-latency sync between admin and display. Eliminated manual errors during live events.
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">HTML</span>
+        <span class="stack-tag">CSS</span>
+        <span class="stack-tag">JavaScript</span>
+        <span class="stack-tag">localStorage API</span>
+        <span class="stack-tag">Real-time UI</span>
+      </div>
+    </div>
+
+    <!-- E-Commerce -->
+    <div class="project-card fade-up stagger-2">
+      <div class="project-badge badge-normal" data-en="Full-Stack" data-id="Full-Stack">Full-Stack</div>
+      <h3 class="project-title" data-en="Luxury Cars E-Commerce Platform" data-id="Platform E-Commerce Mobil Mewah">Luxury Cars E-Commerce Platform</h3>
+      <p class="project-problem"><span data-en="Problem:" data-id="Masalah:">Problem:</span> <span data-en="Luxury car dealerships lack a structured digital platform for inventory and product management." data-id="Dealer mobil mewah tidak memiliki platform digital terstruktur untuk manajemen inventaris dan produk.">Luxury car dealerships lack a structured digital platform for inventory and product management.</span></p>
+      <p class="project-desc" data-en="Built a full-stack e-commerce system handling product catalog management, inventory workflows, and user interaction. Developed a responsive frontend over a structured Laravel backend with MySQL, ensuring data integrity and clean separation of concerns across all layers." data-id="Membangun sistem e-commerce full-stack yang menangani manajemen katalog produk, alur kerja inventaris, dan interaksi pengguna. Mengembangkan frontend responsif di atas backend Laravel terstruktur dengan MySQL, memastikan integritas data dan pemisahan tanggung jawab yang bersih di semua lapisan.">
+        Built a full-stack e-commerce system handling product catalog management, inventory workflows, and user interaction. Developed a responsive frontend over a structured Laravel backend with MySQL, ensuring data integrity and clean separation of concerns across all layers.
+      </p>
+      <div class="project-impact" data-en="→ Structured inventory management system with clean backend architecture." data-id="→ Sistem manajemen inventaris terstruktur dengan arsitektur backend yang bersih.">
+        → Structured inventory management system with clean backend architecture.
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">Laravel</span>
+        <span class="stack-tag">MySQL</span>
+        <span class="stack-tag">HTML/CSS</span>
+        <span class="stack-tag">JavaScript</span>
+        <span class="stack-tag">PHP</span>
+      </div>
+    </div>
+
+    <!-- GrowFi -->
+    <div class="project-card fade-up stagger-3">
+      <div class="project-badge badge-normal" data-en="Web3 / Blockchain" data-id="Web3 / Blockchain">Web3 / Blockchain</div>
+      <h3 class="project-title" data-en="GrowFi Coin Platform" data-id="Platform GrowFi Coin">GrowFi Coin Platform</h3>
+      <p class="project-problem"><span data-en="Problem:" data-id="Masalah:">Problem:</span> <span data-en="Users need an accessible interface to understand and simulate crypto trading with smart contract interactions." data-id="Pengguna membutuhkan antarmuka yang mudah diakses untuk memahami dan mensimulasikan trading kripto dengan interaksi smart contract.">Users need an accessible interface to understand and simulate crypto trading with smart contract interactions.</span></p>
+      <p class="project-desc" data-en="Developed a cryptocurrency trading landing page integrated with Hardhat to simulate smart contract interactions on the Ethereum environment. Implemented transaction workflows for buying and selling digital assets, paired with a responsive UI optimized for conversion and clarity." data-id="Mengembangkan landing page trading cryptocurrency yang terintegrasi dengan Hardhat untuk mensimulasikan interaksi smart contract pada environment Ethereum. Menerapkan alur kerja transaksi untuk membeli dan menjual aset digital, dipadukan dengan UI responsif yang dioptimalkan untuk konversi dan kejelasan.">
+        Developed a cryptocurrency trading landing page integrated with Hardhat to simulate smart contract interactions on the Ethereum environment. Implemented transaction workflows for buying and selling digital assets, paired with a responsive UI optimized for conversion and clarity.
+      </p>
+      <div class="project-impact" data-en="→ Smart contract simulation on Ethereum. Full buy/sell workflow implemented." data-id="→ Simulasi smart contract di Ethereum. Alur kerja beli/jual lengkap diimplementasikan.">
+        → Smart contract simulation on Ethereum. Full buy/sell workflow implemented.
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">Next.js</span>
+        <span class="stack-tag">JavaScript</span>
+        <span class="stack-tag">Hardhat</span>
+        <span class="stack-tag">Ethereum</span>
+        <span class="stack-tag">HTML/CSS</span>
+      </div>
+    </div>
+
+    <!-- BI Dashboard -->
+    <div class="project-card fade-up stagger-4">
+      <div class="project-badge badge-normal" data-en="Data & Analytics" data-id="Data & Analitik">Data & Analytics</div>
+      <h3 class="project-title" data-en="Unicorn BI Dashboard" data-id="Dashboard BI Unicorn">Unicorn BI Dashboard</h3>
+      <p class="project-problem"><span data-en="Problem:" data-id="Masalah:">Problem:</span> <span data-en="Unicorn company data is scattered and hard to compare across regions and industries without structured tooling." data-id="Data perusahaan unicorn tersebar dan sulit dibandingkan antar wilayah dan industri tanpa alat yang terstruktur.">Unicorn company data is scattered and hard to compare across regions and industries without structured tooling.</span></p>
+      <p class="project-desc" data-en="Built an interactive BI dashboard analyzing global unicorn companies. Used Python to process and clean large datasets — extracting insights on valuation, funding patterns, and market trends. Translated the processed data into interactive Tableau visualizations including geographic maps, valuation distributions, and industry market share breakdowns." data-id="Membangun dashboard BI interaktif yang menganalisis perusahaan unicorn global. Menggunakan Python untuk memproses dan membersihkan dataset besar — mengekstraksi wawasan tentang valuasi, pola pendanaan, dan tren pasar. Menerjemahkan data yang diproses ke dalam visualisasi Tableau interaktif termasuk peta geografis, distribusi valuasi, dan perincian pangsa pasar industri.">
+        Built an interactive BI dashboard analyzing global unicorn companies. Used Python to process and clean large datasets — extracting insights on valuation, funding patterns, and market trends. Translated the processed data into interactive Tableau visualizations including geographic maps, valuation distributions, and industry market share breakdowns.
+      </p>
+      <div class="project-impact" data-en="→ Processed large-scale datasets. Delivered multi-dimensional interactive visualizations." data-id="→ Memproses dataset berskala besar. Menghasilkan visualisasi interaktif multi-dimensi.">
+        → Processed large-scale datasets. Delivered multi-dimensional interactive visualizations.
+      </div>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Tableau</span>
+        <span class="stack-tag">Data Processing</span>
+        <span class="stack-tag">BI Analytics</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="section-label" data-en="Where I've Worked" data-id="Pengalaman Kerja">Where I've Worked</div>
+  <h2 class="section-title fade-up" data-en="Execution, not just participation." data-id="Eksekusi, bukan sekadar partisipasi.">Execution, not just participation.</h2>
+  <p class="section-sub fade-up stagger-1" data-en="Real responsibility — managing teams, solving problems under pressure, and delivering results in high-stakes environments." data-id="Tanggung jawab nyata — mengelola tim, memecahkan masalah di bawah tekanan, dan menghasilkan hasil dalam lingkungan bertekanan tinggi.">
+    Real responsibility — managing teams, solving problems under pressure, and delivering results in high-stakes environments.
+  </p>
+
+  <div class="exp-list">
+
+    <div class="exp-card fade-up stagger-1">
+      <div class="exp-line">
+        <div class="exp-dot"></div>
+        <div class="exp-line-bar"></div>
+      </div>
+      <div>
+        <div class="exp-header">
+          <div class="exp-role" data-en="Multimedia & Technical Support Intern" data-id="Magang Multimedia & Dukungan Teknis">Multimedia & Technical Support Intern</div>
+          <div class="exp-org">Universitas Ciputra Surabaya</div>
+          <div class="exp-period">07/2025 – Present</div>
+        </div>
+        <ul class="exp-bullets">
+          <li data-en="Bridged communication between event committees and technical teams to ensure production-ready venue setups — zero downtime on live events." data-id="Menjembatani komunikasi antara panitia acara dan tim teknis untuk memastikan setup venue siap produksi — nol downtime pada acara langsung.">Bridged communication between event committees and technical teams to ensure production-ready venue setups — zero downtime on live events.</li>
+          <li data-en="Diagnosed and resolved real-time technical failures during live productions, maintaining uninterrupted operations under time pressure." data-id="Mendiagnosis dan menyelesaikan kegagalan teknis real-time selama produksi langsung, menjaga operasi yang tidak terputus di bawah tekanan waktu.">Diagnosed and resolved real-time technical failures during live productions, maintaining uninterrupted operations under time pressure.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card fade-up stagger-2">
+      <div class="exp-line">
+        <div class="exp-dot"></div>
+        <div class="exp-line-bar"></div>
+      </div>
+      <div>
+        <div class="exp-header">
+          <div class="exp-role" data-en="Inventory Coordinator — Epic National 2025" data-id="Koordinator Inventaris — Epic National 2025">Inventory Coordinator — Epic National 2025</div>
+          <div class="exp-org">Student Union, Universitas Ciputra</div>
+          <div class="exp-period">09/2024 – 01/2025</div>
+        </div>
+        <ul class="exp-bullets">
+          <li data-en="Led a twelve-person team across a national-scale high school business simulation (MonsoonSIM), directing multi-day event logistics end-to-end." data-id="Memimpin tim dua belas orang dalam simulasi bisnis SMA skala nasional (MonsoonSIM), mengarahkan logistik acara multi-hari dari awal hingga akhir.">Led a twelve-person team across a national-scale high school business simulation (MonsoonSIM), directing multi-day event logistics end-to-end.</li>
+          <li data-en="Owned full procurement cycle — sourcing, purchasing, and managing equipment including live-streaming infrastructure." data-id="Mengelola siklus pengadaan penuh — sourcing, pembelian, dan manajemen peralatan termasuk infrastruktur live-streaming.">Owned full procurement cycle — sourcing, purchasing, and managing equipment including live-streaming infrastructure.</li>
+          <li data-en="Designed delegation frameworks that aligned twelve team members' responsibilities, preventing operational bottlenecks across concurrent event tracks." data-id="Merancang kerangka delegasi yang menyelaraskan tanggung jawab dua belas  anggota tim, mencegah hambatan operasional di berbagai jalur acara bersamaan.">Designed delegation frameworks that aligned twelve team members' responsibilities, preventing operational bottlenecks across concurrent event tracks.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card fade-up stagger-3">
+      <div class="exp-line">
+        <div class="exp-dot"></div>
+        <div class="exp-line-bar"></div>
+      </div>
+      <div>
+        <div class="exp-header">
+          <div class="exp-role" data-en="Inventory Coordinator — Mental Health Month 2025" data-id="Koordinator Inventaris — Bulan Kesehatan Mental 2025">Inventory Coordinator — Mental Health Month 2025</div>
+          <div class="exp-org">Mentoring Department, Universitas Ciputra</div>
+          <div class="exp-period">07/2025 – 01/2026</div>
+        </div>
+        <ul class="exp-bullets">
+          <li data-en="Coordinated an eleven-person team to execute workshops and webinars, managing both operational logistics and team performance." data-id="Mengkoordinasikan tim sebelas orang untuk menjalankan workshop dan webinar, mengelola logistik operasional dan kinerja tim.">Coordinated an eleven-person team to execute workshops and webinars, managing both operational logistics and team performance.</li>
+          <li data-en="Managed the complete procurement and resource allocation pipeline across multi-day event operations." data-id="Mengelola pipeline pengadaan dan alokasi sumber daya yang lengkap di seluruh operasi acara multi-hari.">Managed the complete procurement and resource allocation pipeline across multi-day event operations.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card fade-up stagger-4">
+      <div class="exp-line">
+        <div class="exp-dot"></div>
+      </div>
+      <div>
+        <div class="exp-header">
+          <div class="exp-role" data-en="Finance & Fundraising — Student Union" data-id="Keuangan & Fundraising — BEM">Finance & Fundraising — Student Union</div>
+          <div class="exp-org">Information System for Business Student Union</div>
+          <div class="exp-period">07/2024 – 07/2025</div>
+        </div>
+        <ul class="exp-bullets">
+          <li data-en="Collaborated in planning and executing academic and non-academic departmental events, contributing to the Student Union's strategic growth." data-id="Berkolaborasi dalam perencanaan dan pelaksanaan acara departemen akademik dan non-akademik, berkontribusi pada pertumbuhan strategis BEM.">Collaborated in planning and executing academic and non-academic departmental events, contributing to the Student Union's strategic growth.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-label" data-en="Technical Stack" data-id="Stack Teknis">Technical Stack</div>
+  <h2 class="section-title fade-up" data-en="Tools I build with." data-id="Alat yang saya gunakan.">Tools I build with.</h2>
+
+  <div class="skills-container">
+
+    <!-- Backend -->
+    <div class="skill-group fade-up stagger-1">
+      <div class="skill-group-title" data-en="Backend Development" data-id="Pengembangan Backend">Backend Development</div>
+      <div class="skill-items">
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path fill="#4584b6" d="M15.9 3C10.4 3 10.8 5.4 10.8 5.4V7.9h5.2v.8H8.4S5 8.3 5 13.9s3 5.3 3 5.3H9.8v-2.6s-.1-3 3-3h5.1s2.9.1 2.9-2.8V6.3S21.3 3 15.9 3zm-2.9 1.7c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z"/><path fill="#ffde57" d="M16.1 29c5.5 0 5.1-2.4 5.1-2.4v-2.5h-5.2v-.8h7.6s3.4.4 3.4-5.2-3-5.3-3-5.3H22.2v2.6s.1 3-3 3h-5.1s-2.9-.1-2.9 2.8v4.5S10.7 29 16.1 29zm2.9-1.7c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9z"/></svg></div>
+          <span class="skill-name">Python</span>
+          <span class="skill-sub">Primary</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path fill="#FF2D20" d="M28.4 8.1c0 .1.1.2.1.3v7.5c0 .3-.2.6-.4.7l-6.3 3.6v7.1c0 .3-.2.6-.4.7L8.2 35.6c-.1 0-.1.1-.2.1h-.2c-.1 0-.1 0-.2-.1L.4 27.9c-.3-.2-.4-.4-.4-.7V5c0-.1 0-.2.1-.3v-.1l.1-.1L7.5.2c.3-.2.6-.2.8 0l7.3 4.2c.1 0 .2.1.2.1l6.3-3.6c.3-.2.6-.2.8 0l6.3 3.6c.1 0 .1.1.1.1.1.1.1.2.1.3v.2zm-7 11.1v-6.3l-2.6 1.5-3.6 2.1v6.3l6.2-3.6zM1.6 6.2v21.1l12.3 7.1V14.3L1.6 6.2zm25.8 0L15.1 13v21.1l12.3-7.1V6.2zM8.1 1.1L1.9 4.7l6.2 3.6 6.2-3.6-6.2-3.6zm6.6 12.5 3.6-2.1L12.1 8 6 11.5l8.7 2.1z"/></svg></div>
+          <span class="skill-name">Laravel</span>
+          <span class="skill-sub">PHP</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><ellipse cx="16" cy="8" rx="13" ry="5" fill="none" stroke="#00758f" stroke-width="2"/><path fill="none" stroke="#00758f" stroke-width="2" d="M3 8v6c0 2.8 5.8 5 13 5s13-2.2 13-5V8"/><path fill="none" stroke="#f29111" stroke-width="2" d="M3 14v6c0 2.8 5.8 5 13 5s13-2.2 13-5v-6"/></svg></div>
+          <span class="skill-name">SQL</span>
+          <span class="skill-sub">MySQL / PostgreSQL</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><rect width="28" height="28" x="2" y="2" rx="2" fill="#f7df1e"/><path fill="#000" d="M20.3 22.8c.4.7.9 1.2 1.8 1.2.8 0 1.2-.4 1.2-.9 0-.6-.5-.8-1.3-1.2l-.5-.2c-1.3-.5-2.1-1.2-2.1-2.6 0-1.3 1-2.3 2.6-2.3 1.1 0 1.9.4 2.5 1.4l-1.4.9c-.3-.5-.6-.7-1.1-.7-.5 0-.8.3-.8.7 0 .5.3.7 1.1 1l.5.2c1.5.6 2.3 1.3 2.3 2.7 0 1.6-1.2 2.4-2.9 2.4-1.6 0-2.7-.8-3.2-1.8l1.3-.8zM12.8 23c.3.5.5.9 1.1.9.5 0 .9-.2.9-1v-5.6h1.8V23c0 1.7-1 2.5-2.5 2.5-1.3 0-2.1-.7-2.5-1.5l1.2-.9z"/></svg></div>
+          <span class="skill-name">JavaScript</span>
+          <span class="skill-sub">ES6+</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path fill="#9b4f96" d="M16 2L4 8.7v14.6L16 30l12-6.7V8.7L16 2zm-4.5 18.5c-3 0-5-2-5-4.5s2-4.5 5-4.5c1.5 0 2.7.6 3.6 1.5l-1.7 1.7c-.5-.5-1.1-.8-1.9-.8-1.5 0-2.6 1.1-2.6 2.6s1.1 2.6 2.6 2.6c.9 0 1.5-.3 2-.9l1.7 1.7c-.9 1-2.2 1.6-3.7 1.6zm9.2-.4h-1v1h-1v-1h-2v-1h2v-1h1v1h1v1zm2 0h-1v1h-1v-1h-2v-1h2v-1h1v1h1v1z"/></svg></div>
+          <span class="skill-name">C#</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data -->
+    <div class="skill-group fade-up stagger-2">
+      <div class="skill-group-title" data-en="Data & Analytics" data-id="Data & Analitik">Data & Analytics</div>
+      <div class="skill-items">
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><rect x="14.5" y="3" width="3" height="10" rx="1.5" fill="#E97627"/><rect x="14.5" y="19" width="3" height="10" rx="1.5" fill="#E97627"/><rect x="3" y="14.5" width="10" height="3" rx="1.5" fill="#5B6E97"/><rect x="19" y="14.5" width="10" height="3" rx="1.5" fill="#5B6E97"/><circle cx="16" cy="16" r="2.5" fill="#1F3864"/></svg></div>
+          <span class="skill-name">Tableau</span>
+          <span class="skill-sub">Viz</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="7" fill="none" stroke="#4285F4" stroke-width="2.5"/><circle cx="16" cy="16" r="3" fill="#EA4335"/><path d="M16 5V3M16 29v-2M5 16H3M29 16h-2" stroke="#34A853" stroke-width="2" stroke-linecap="round"/><path d="M8.5 8.5L7 7M25 25l-1.5-1.5M8.5 23.5L7 25M25 7l-1.5 1.5" stroke="#FBBC05" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <span class="skill-name">Looker Studio</span>
+          <span class="skill-sub">BI</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path fill="#4584b6" d="M15.9 3C10.4 3 10.8 5.4 10.8 5.4V7.9h5.2v.8H8.4S5 8.3 5 13.9s3 5.3 3 5.3H9.8v-2.6s-.1-3 3-3h5.1s2.9.1 2.9-2.8V6.3S21.3 3 15.9 3zm-2.9 1.7c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z"/><path fill="#ffde57" d="M16.1 29c5.5 0 5.1-2.4 5.1-2.4v-2.5h-5.2v-.8h7.6s3.4.4 3.4-5.2-3-5.3-3-5.3H22.2v2.6s.1 3-3 3h-5.1s-2.9-.1-2.9 2.8v4.5S10.7 29 16.1 29zm2.9-1.7c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9z"/></svg></div>
+          <span class="skill-name">Python (Pandas/NumPy)</span>
+          <span class="skill-sub">Processing</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><polyline points="2,24 7,14 11,20 15,10 19,16 23,8 28,18" fill="none" stroke="#4fd1c5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="14" r="1.5" fill="#4fd1c5"/><circle cx="15" cy="10" r="1.5" fill="#4fd1c5"/><circle cx="23" cy="8" r="1.5" fill="#63b3ed"/></svg></div>
+          <span class="skill-name">ARIMA / SARIMA</span>
+          <span class="skill-sub">Forecasting</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="11" fill="none" stroke="#63b3ed" stroke-width="2"/><path d="M16 5 A11 11 0 0 1 27 16" fill="none" stroke="#4fd1c5" stroke-width="2.5" stroke-linecap="round"/><path d="M27 16 A11 11 0 0 1 16 27" fill="none" stroke="#f6e05e" stroke-width="2.5" stroke-linecap="round"/><path d="M16 27 A11 11 0 0 1 5 16" fill="none" stroke="#fc8181" stroke-width="2.5" stroke-linecap="round"/><path d="M5 16 A11 11 0 0 1 16 5" fill="none" stroke="#68d391" stroke-width="2.5" stroke-linecap="round"/><circle cx="16" cy="16" r="3" fill="#63b3ed"/></svg></div>
+          <span class="skill-name">CRISP-DM</span>
+          <span class="skill-sub">Methodology</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tools -->
+    <div class="skill-group fade-up stagger-3">
+      <div class="skill-group-title" data-en="Tools & Infrastructure" data-id="Alat & Infrastruktur">Tools & Infrastructure</div>
+      <div class="skill-items">
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path fill="#2496ED" d="M30.6 14.6c-.5-.4-1.8-.6-2.8-.4-.1-.9-.7-1.8-1.5-2.4l-.5-.3-.3.5c-.4.7-.6 1.6-.5 2.4-.1.4-.3 1-.7 1.3-.4.3-1 .5-1.7.5H2.6c-.2 1.1 0 2.4.7 3.4.7 1 1.7 1.7 3 2 .6.1 1.3.2 2 .2 1 0 2-.2 2.8-.6.7-.4 1.4-1 1.9-1.7.5.2 1 .3 1.5.3h.9c.2-.5.2-1.1.1-1.6.3.2.6.5.8.9l.2.5.5-.2c1-.4 1.4-1.2 1.5-2h1.4c.1.6.5 1.2 1.1 1.4.5.2 1 .2 1.5 0 .6-.2 1-.7 1.1-1.3.1-.4.1-.9-.1-1.4h.2c.6 0 1.1-.2 1.4-.6.3-.4.4-.9.3-1.4z"/><rect x="8" y="12" width="3" height="3" rx=".3" fill="#fff"/><rect x="12" y="12" width="3" height="3" rx=".3" fill="#fff"/><rect x="16" y="12" width="3" height="3" rx=".3" fill="#fff"/><rect x="8" y="8.5" width="3" height="3" rx=".3" fill="#fff"/><rect x="12" y="8.5" width="3" height="3" rx=".3" fill="#fff"/></svg></div>
+          <span class="skill-name">Docker</span>
+          <span class="skill-sub">Container</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path fill="#F05032" d="M29.5 14.5l-12-12a2.1 2.1 0 0 0-3 0l-2.6 2.6 3.4 3.4a2.5 2.5 0 0 1 3.2 3.2l3.3 3.3a2.5 2.5 0 1 1-1.5 1.4l-3.1-3.1v8.2a2.5 2.5 0 1 1-2 0v-8.3a2.5 2.5 0 0 1-1.4-3.3L9.4 7l-6.9 6.9a2.1 2.1 0 0 0 0 3l12 12a2.1 2.1 0 0 0 3 0l11.9-11.9a2.1 2.1 0 0 0 .1-2.5z"/></svg></div>
+          <span class="skill-name">Git</span>
+          <span class="skill-sub">Version Control</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="13" fill="#000"/><path d="M10.5 21.5V10.5l13 13" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M10.5 10.5h7" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg></div>
+          <span class="skill-name">Next.js</span>
+          <span class="skill-sub">React Framework</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="7" width="28" height="18" rx="3" fill="#0070F2"/><text x="16" y="20.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="9.5" fill="#fff" letter-spacing="0.5">SAP</text></svg></div>
+          <span class="skill-name">SAP</span>
+          <span class="skill-sub">ERP</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><ellipse cx="16" cy="22" rx="12" ry="3.5" fill="#FFC02D"/><path d="M8 22 C8 14 12 8 16 8 C20 8 24 14 24 22" fill="#FFC02D"/><path d="M6 22 C6 13 10 6 16 6 C22 6 26 13 26 22" fill="none" stroke="#E5A000" stroke-width="1.5"/><circle cx="16" cy="9" r="2" fill="#E5A000"/></svg></div>
+          <span class="skill-name">Hardhat</span>
+          <span class="skill-sub">Ethereum Dev</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Collaboration -->
+    <div class="skill-group fade-up stagger-4">
+      <div class="skill-group-title" data-en="Collaboration & PM" data-id="Kolaborasi & Manajemen Proyek">Collaboration & PM</div>
+      <div class="skill-items">
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="jiraG" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="18%" stop-color="#0052CC"/><stop offset="100%" stop-color="#2684FF"/></linearGradient></defs><path fill="url(#jiraG)" d="M27.5 15.5 L16 4 L4.5 15.5 L9.7 20.7 L16 14.4 L22.3 20.7 Z"/><path fill="#2684FF" d="M16 14.4 L9.7 20.7 L13.3 24.3 L16 27 L18.7 24.3 L22.3 20.7 Z"/></svg></div>
+          <span class="skill-name">Jira</span>
+          <span class="skill-sub">Agile / Scrum</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="28" height="28" rx="4" fill="#0079BF"/><rect x="5.5" y="5.5" width="9" height="16" rx="2" fill="#fff"/><rect x="17.5" y="5.5" width="9" height="10" rx="2" fill="#fff"/></svg></div>
+          <span class="skill-name">Trello</span>
+          <span class="skill-sub">Kanban</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><path fill="#007ACC" d="M23.5 2.5l-13 12L4 9 1 11.5v9L4 23l6.5-5.5 13 12L31 27V5l-7.5-2.5z"/><path fill="#fff" d="M23.5 7.3L12.8 16l10.7 8.7V7.3zM4 13.5l4.5 2.5L4 18.5v-5z"/></svg></div>
+          <span class="skill-name">VS Code</span>
+          <span class="skill-sub">IDE</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="26" height="18" rx="2.5" fill="none" stroke="#63b3ed" stroke-width="2"/><line x1="9" y1="10" x2="23" y2="10" stroke="#4fd1c5" stroke-width="1.8" stroke-linecap="round"/><line x1="9" y1="14" x2="19" y2="14" stroke="#63b3ed" stroke-width="1.8" stroke-linecap="round"/><line x1="9" y1="18" x2="21" y2="18" stroke="#63b3ed" stroke-width="1.8" stroke-linecap="round"/><line x1="16" y1="23" x2="16" y2="27" stroke="#63b3ed" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="27" x2="22" y2="27" stroke="#63b3ed" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <span class="skill-name" data-en="System Analysis & Design" data-id="Analisis & Desain Sistem">System Analysis & Design</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon"><svg viewBox="0 0 32 32" width="18" height="18" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="9" r="4" fill="#63b3ed"/><path d="M8 26c0-4.4 3.6-8 8-8s8 3.6 8 8" fill="none" stroke="#63b3ed" stroke-width="2" stroke-linecap="round"/><circle cx="6" cy="13" r="3" fill="#4fd1c5"/><path d="M1 26c0-3.3 2.2-6 5-6" fill="none" stroke="#4fd1c5" stroke-width="1.8" stroke-linecap="round"/><circle cx="26" cy="13" r="3" fill="#4fd1c5"/><path d="M31 26c0-3.3-2.2-6-5-6" fill="none" stroke="#4fd1c5" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <span class="skill-name" data-en="Team Leadership" data-id="Kepemimpinan Tim">Team Leadership</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── EDUCATION & CERTS ── -->
+<section id="education">
+  <div class="section-label" data-en="Education" data-id="Pendidikan">Education</div>
+  <h2 class="section-title fade-up" data-en="Where the foundation was built." data-id="Tempat fondasi dibangun.">Where the foundation was built.</h2>
+
+  <div class="edu-card fade-up stagger-1">
+    <div>
+      <div class="edu-degree" data-en="Bachelor of Computer Science" data-id="Sarjana Ilmu Komputer">Bachelor of Computer Science</div>
+      <div class="edu-uni">Universitas Ciputra — Information Systems for Business</div>
+      <div class="edu-period">08/2023 – Present · Surabaya, Indonesia</div>
+      <div class="edu-courses">
+        <span class="course-tag">Data Science</span>
+        <span class="course-tag">Business Intelligence</span>
+        <span class="course-tag">System Analysis & Design</span>
+        <span class="course-tag">Application Development</span>
+      </div>
+    </div>
+    <div class="edu-gpa">
+      <div class="edu-gpa-num">3.51</div>
+      <div class="edu-gpa-label">GPA / 4.00</div>
+    </div>
+  </div>
+
+  <div class="cert-list fade-up stagger-2">
+    <div class="cert-item">
+      <span class="cert-icon">🏆</span>
+      <span data-en="1st Place — Applied Math Expo 2023-1, Universitas Ciputra (2024)" data-id="Juara 1 — Applied Math Expo 2023-1, Universitas Ciputra (2024)">1st Place — Applied Math Expo 2023-1, Universitas Ciputra (2024)</span>
+    </div>
+    <div class="cert-item">
+      <span class="cert-icon">🥈</span>
+      <span data-en="Finalist — National Essay & Business Plan, Cipta Nusantara Fest (2025)" data-id="Finalis — Essay & Business Plan Nasional, Cipta Nusantara Fest (2025)">Finalist — National Essay & Business Plan, Cipta Nusantara Fest (2025)</span>
+    </div>
+    <div class="cert-item">
+      <span class="cert-icon">📜</span>
+      <span data-en="SAP Overview (SAP01) — SAP University Partnership (2024)" data-id="SAP Overview (SAP01) — SAP University Partnership (2024)">SAP Overview (SAP01) — SAP University Partnership (2024)</span>
+    </div>
+    <div class="cert-item">
+      <span class="cert-icon">📜</span>
+      <span data-en="SAP SCM600 — Business Processes in Sales Order Management (2025)" data-id="SAP SCM600 — Proses Bisnis Manajemen Pesanan Penjualan (2025)">SAP SCM600 — Business Processes in Sales Order Management (2025)</span>
+    </div>
+    <div class="cert-item">
+      <span class="cert-icon">📜</span>
+      <span data-en="Hands-on Tableau Fundamentals — Zenith Academy (2025)" data-id="Tableau Fundamentals — Zenith Academy (2025)">Hands-on Tableau Fundamentals — Zenith Academy (2025)</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="justify-content:center" data-en="Get In Touch" data-id="Hubungi Saya">Get In Touch</div>
+    <h2 class="contact-title fade-up" data-en="Let's build something." data-id="Mari membangun sesuatu.">Let's build something.</h2>
+    <p class="contact-sub fade-up stagger-1" data-en="I'm actively looking for Backend Developer or Software Engineer Intern opportunities. If you're working on something that needs structured backend thinking and someone who executes — let's talk." data-id="Saya sedang aktif mencari peluang sebagai Backend Developer atau Software Engineer Intern. Jika Anda sedang mengerjakan sesuatu yang membutuhkan pemikiran backend terstruktur dan seseorang yang bisa mengeksekusi — mari berdiskusi.">
+      I'm actively looking for Backend Developer or Software Engineer Intern opportunities. If you're working on something that needs structured backend thinking and someone who executes — let's talk.
+    </p>
+    <div class="contact-btns fade-up stagger-2">
+      <a href="mailto:richoivan2005@gmail.com" class="btn-primary" data-en="Send an Email" data-id="Kirim Email">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Send an Email
+      </a>
+      <a href="https://drive.google.com/file/d/1XR86sh1IKncJkyT6ehNYE73g3qMInD2h/view?usp=sharing" target="_blank" class="btn-ghost">
+  ↓ Download CV
+</a>
+    </div>
+    <div class="contact-links fade-up stagger-3">
+      <a href="mailto:richoivan2005@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        richoivan2005@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/icho-ivan-ardiyanto" target="_blank" rel="noopener" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/icho-ivan-ardiyanto
+      </a>
+      <a href="https://github.com/Richoivan" target="_blank" rel="noopener" class="contact-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        github.com/Richoivan
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span>© 2026 Richo Ivan Ardiyanto</span>
+  <span data-en="Built with precision. Open to opportunities." data-id="Dibangun dengan presisi. Terbuka untuk kesempatan.">Built with precision. Open to opportunities.</span>
+  <span>Surabaya, Indonesia</span>
+</footer>
+
+<script>
+  // ── LANGUAGE SYSTEM ──
+  let currentLang = 'en';
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.lang-btn:${lang === 'en' ? 'first' : 'last'}-child`).classList.add('active');
+
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const val = el.getAttribute(`data-${lang}`);
+      if (!val) return;
+      // If the element has inner HTML with tags, use innerHTML
+      if (val.includes('<') || val.includes('>')) {
+        el.innerHTML = val;
+      } else {
+        el.textContent = val;
+      }
+    });
+  }
+
+  // ── SCROLL ANIMATIONS ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── SMOOTH NAV ACTIVE STATE ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
